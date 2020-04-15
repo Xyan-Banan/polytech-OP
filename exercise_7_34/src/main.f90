@@ -1,4 +1,4 @@
-program exercise_7_14
+program exercise_7_34
     use Environment
 
     implicit none
@@ -26,4 +26,4 @@ program exercise_7_14
     print '('//N_//'f6.1)', (a(i, :), i=1,N_)
 
 
-end program exercise_7_14
+end program exercise_7_34

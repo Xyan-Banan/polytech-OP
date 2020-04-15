@@ -1,4 +1,4 @@
-program exercise_7_14
+program exercise_8_12
     use Environment
 
     implicit none
@@ -32,4 +32,4 @@ contains
         ! end if
         res = sum(A*B)
     end function Scalar_product
-end program exercise_7_14
+end program exercise_8_12

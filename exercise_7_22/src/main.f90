@@ -1,4 +1,4 @@
-program exercise_7_14
+program exercise_7_22
     use Environment
 
     implicit none
@@ -15,4 +15,4 @@ program exercise_7_14
     print "(a,f5.1)","Max - Min = ",maxval(a) - minval(a)
 
 
-end program exercise_7_14
+end program exercise_7_22

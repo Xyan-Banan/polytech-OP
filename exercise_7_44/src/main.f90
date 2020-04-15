@@ -1,4 +1,4 @@
-program exercise_7_14
+program exercise_7_44
     use Environment
 
     implicit none
@@ -13,4 +13,4 @@ program exercise_7_14
     print *,"------------------"
     print '('//N_//'f6.1)', (maxvals(i),i=1,N_)
 
-end program exercise_7_14
+end program exercise_7_44
