@@ -2,7 +2,7 @@ program exercise_8_12
     use Environment
 
     implicit none
-    integer, parameter :: N_ = 10
+    integer, parameter :: N_ = 2
     real :: C(N_), D(N_)
     integer :: i
 
@@ -24,8 +24,8 @@ contains
     function Scalar_product(A, B) result(res)
         real, intent(in) :: A(:),B(:)
         real             :: res
-        ! integer             :: A_UBOUND = ubound(A,dim=1), B_UBOUND = ubound(B,dim=1)
-        ! if (A_UBOUND == B_UBOUND) then
+        ! integer          :: A_size = ubound(A,dim=1), B_size = ubound(B,dim=1)
+        ! if (A_size == B_size) then
         !     res = Sum(A * B)
         ! else
         !     res = null
