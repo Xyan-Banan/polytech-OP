@@ -24,12 +24,14 @@ contains
     function Scalar_product(A, B) result(res)
         real, intent(in) :: A(:),B(:)
         real             :: res
-        ! integer          :: A_size = ubound(A,dim=1), B_size = ubound(B,dim=1)
-        ! if (A_size == B_size) then
-        !     res = Sum(A * B)
-        ! else
-        !     res = null
-        ! end if
-        res = sum(A*B)
+        integer          :: A_size, B_size
+        A_size = size(A,dim=1)
+        B_size = size(B,dim=1)
+        if (A_size == B_size) then
+            res = Sum(A * B)
+        else
+            res = null
+        end if
+        ! res = sum(A*B)
     end function Scalar_product
 end program exercise_8_12
