@@ -1,4 +1,4 @@
-program lab_1_1
+program lab_1_3
     use Environment
     use IO
     use Group_Process
@@ -20,4 +20,4 @@ program lab_1_1
     Unique_Names = UniqueNames(Group)
     Entries = [(CountEntries(Group%Name,Unique_Names(i)), i = 1,Size(Unique_Names))]
     call WriteResultData(output_file,Unique_Names,Entries)
-end program lab_1_1
+end program lab_1_3

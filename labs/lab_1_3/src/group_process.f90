@@ -5,7 +5,7 @@ module Group_Process
     implicit none
 
 contains
-    function UniqueNames(Group) result(Unique_Names)
+    pure function UniqueNames(Group) result(Unique_Names)
         type(student),intent(in) :: Group(STUD_AMOUNT)
         character(NAME_LEN,kind=CH_),allocatable :: Unique_Names(:)
 
@@ -19,10 +19,9 @@ contains
         Unique_Names = [(Group(Unique_Pos(i))%Name, i = 1,Count(Unique_Mask))]
     end function UniqueNames
 
-    function CountEntries(Array, Val_to_search) result(quantity)
+    pure integer function CountEntries(Array, Val_to_search)
         character(NAME_LEN,kind=CH_),intent(in) :: Array(:),Val_to_search
-        integer :: quantity
     
-        quantity = Count(Array == Val_to_search)
+        CountEntries = Count(Array == Val_to_search)
     end function CountEntries
 end module Group_Process
