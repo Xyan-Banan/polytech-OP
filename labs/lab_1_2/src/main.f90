@@ -1,4 +1,4 @@
-program lab_1_1
+program lab_1_2
     use Environment
     implicit none
     integer, parameter :: SURNAME_LEN = 15, NAME_LEN = 10, PATRONYMIC_LEN = 15, STUD_AMOUNT = 12
@@ -18,7 +18,6 @@ program lab_1_1
     call WriteResults(output_file,Unique_Names,Unique_Amount,Entries_Amount)
 
 contains
-
     subroutine GetClassData(Input_File, Surnames,Names,Patronymics)
         character(*),        intent(in)  :: Input_File
         character(kind=CH_), intent(out) :: Surnames(:,:),&
@@ -81,5 +80,4 @@ contains
             write(Out,format) (Unique_Names(i,:)," - ",Entries_Amount(i), i = 1,Unique_Amount)
         close(Out)
     end subroutine WriteResults
-
-end program lab_1_1
+end program lab_1_2

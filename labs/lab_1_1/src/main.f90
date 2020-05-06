@@ -30,14 +30,9 @@ program lab_1_1
     Uniq = [(all(Names(:i-1) /= Names(i)), i=1,STUD_AMOUNT)]
     Uniq_Pos = pack(INDEXES,Uniq)
     Uniq_Amount = Count(Uniq)
-    ! write(Out,"(i0,1x,a,L)") (i,Names(i),Uniq(i), i = 1,STUD_AMOUNT)
-
-    ! close(Out)
 
     open(file=output_file,encoding=E_,newunit=Out)
         format = "(a,a,i0)"    
         write(Out,format) (Names(Uniq_Pos(i))," - ",Count(Names == Names(Uniq_Pos(i))), i = 1,Uniq_Amount)
     close(Out)
-
-
 end program lab_1_1
