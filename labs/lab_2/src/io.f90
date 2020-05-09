@@ -7,8 +7,9 @@ module IO
         type(String), pointer :: next => Null()
     end type String
 
-    character(*),parameter :: format = '(a)'
-        
+    character(*),parameter :: format = '(a1)'
+    integer :: size = 1
+
 contains
     function ReadString(Input_File) result(String_List)
         character(*),intent(in) :: Input_File
@@ -17,25 +18,20 @@ contains
         integer :: In
         
         open(file=Input_File,encoding=E_,newunit=In)
-            String_List => ReadChar(In)
+            String_List => ReadChar(In,OUTPUT_UNIT)
         close(In)
     end function ReadString
 
-    recursive function ReadChar(In) result(Str)
-        integer,intent(in)    :: In
+    recursive function ReadChar(In, Out) result(Str)
+        integer,intent(in)    :: In, Out
         type(String),pointer :: Str
 
         integer :: IO
-        
+
         allocate(Str)
-        read(In,format,iostat=IO) Str%ch
-        
+        read(In,format,iostat=IO,size=size,advance="no") Str%ch
         if (IO == 0) then
-            open(OUTPUT_UNIT,encoding=E_)
-            !     write (OUTPUT_UNIT,*) "ReadChar ",Str%ch
-            ! close(OUTPUT_UNIT)
-            print *,"read char",Str%ch
-            Str%next => ReadChar(In)
+            Str%next => ReadChar(In,Out)
         else
             deallocate(Str)
             nullify(Str)
@@ -48,7 +44,7 @@ contains
         
         integer :: Out
 
-        open(file=Output_File,newunit=Out,encoding=E_)
+        open(file=Output_File,newunit=Out,encoding=E_,status="replace")
             call WriteChar(Out,String_List)
         close(Out)
     end subroutine WriteString
@@ -57,7 +53,7 @@ contains
         integer :: Out
         type(String) :: Str
 
-        write (out,format) Str%ch
+        write (out,format,advance='no') Str%ch
         if (associated(Str%next)) then
             call WriteChar(out,Str%next)
         end if
