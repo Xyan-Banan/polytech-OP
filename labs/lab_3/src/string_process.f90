@@ -4,20 +4,20 @@ module String_Process
     implicit none
 
 contains
-    pure function SubstringAt(String_List,N) result(Str)
-        type(String),intent(in) :: String_List
-        integer,intent(in)      :: N
+    function SubstringAt(String_List,N) result(Str)
+        type(String) :: String_List
+        integer      :: N
         type(String),pointer :: Str
 
-        ! integer :: Counter = 1
+        integer :: Counter = 1
         
-        Str => GetCharAt(String_List,N,1)
+        Str => GetCharAt(String_List,N,Counter)
     end function SubstringAt
 
-    pure recursive function GetCharAt(String_List,N,Counter) result(Str)
-        type(String),intent(in),target :: String_List
-        integer,     intent(in)        :: N
-        integer,     intent(in)        :: Counter
+    recursive function GetCharAt(String_List,N,Counter) result(Str)
+        type(String),target :: String_List
+        integer      :: N
+        integer :: Counter
 
         type(String),pointer :: Str
 
