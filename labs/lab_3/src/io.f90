@@ -2,60 +2,62 @@ module IO
     use Environment
     implicit none
 
-    type String
-        character(kind=CH_) :: ch
-        type(String), pointer :: next => Null()
-    end type String
+    integer,parameter :: STR_LEN = 10
 
-    character(*),parameter :: format = '(a1)'
-    integer :: size = 1
+    type Record
+        character(STR_LEN,kind=CH_) :: Surname = ""
+        character(STR_LEN,kind=CH_) :: Name = ""
+        type(Record),pointer        :: next => Null()
+    end type Record
+
+    character(*),parameter :: format = '(a,1x,a)'
 
 contains
-    function ReadString(Input_File) result(String_List)
-        character(*),intent(in) :: Input_File
-        type(String),pointer    :: String_List
+    function ReadRecordList(Input_File) result(Record_List)
+        character(*),intent(in)  :: Input_File
+        type(Record),pointer    :: Record_List
 
         integer :: In
         
         open(file=Input_File,encoding=E_,newunit=In)
-            String_List => ReadChar(In,OUTPUT_UNIT)
+            Record_List => ReadRecord(In)
         close(In)
-    end function ReadString
+    end function ReadRecordList
 
-    recursive function ReadChar(In, Out) result(Str)
-        integer,intent(in)    :: In, Out
-        type(String),pointer :: Str
+    recursive function ReadRecord(In) result(rec)
+        integer,intent(in)    :: In
+        type(Record),pointer :: rec
 
         integer :: IO
-
-        allocate(Str)
-        read(In,format,iostat=IO,size=size,advance="no") Str%ch
+        
+        allocate(rec)
+        read(In,format,iostat=IO) rec%Surname, rec%Name
         if (IO == 0) then
-            Str%next => ReadChar(In,Out)
+            rec%next => ReadRecord(In)
         else
-            deallocate(Str)
-            nullify(Str)
+            deallocate(rec)
+            nullify(rec)
         end if
-    end function ReadChar
+    end function ReadRecord
 
-    subroutine WriteString(Output_File,String_List)
+    subroutine WriteRecordList(Output_File,Record_List)
         character(*),intent(in) :: Output_File
-        type(String),intent(in) :: String_List
+        type(Record),intent(in) :: Record_List
         
         integer :: Out
 
         open(file=Output_File,newunit=Out,encoding=E_,status="replace")
-            call WriteChar(Out,String_List)
+            call WriteRecord(Out,Record_List)
         close(Out)
-    end subroutine WriteString
+    end subroutine WriteRecordList
 
-    recursive subroutine WriteChar(Out,Str)
+    recursive subroutine WriteRecord(Out,Rec)
         integer :: Out
-        type(String) :: Str
+        type(Record) :: Rec
 
-        write (out,format,advance='no') Str%ch
-        if (associated(Str%next)) then
-            call WriteChar(out,Str%next)
+        write (out,format) Rec%Surname,Rec%Name
+        if (associated(Rec%next)) then
+            call WriteRecord(out,Rec%next)
         end if
-    end subroutine WriteChar
+    end subroutine WriteRecord
 end module IO

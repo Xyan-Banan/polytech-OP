@@ -4,37 +4,38 @@ program lab_1_5
     use String_Process
     implicit none
     
-    type(String),pointer :: string_list_A => Null()
-    type(String),pointer :: string_list_B => Null()
+    type(Record),pointer :: rec_list => Null()
+    ! type(Record),pointer :: Rec_List_B => Null()
 
-    character(:), allocatable  :: input_file, output_file
+    character(:), allocatable  :: F1, F2, output_file
 
-    input_file = "../data/names.txt"
+    F1 = "../data/F1.txt"
+    F2 = "../data/F2.txt"
     output_file = "output.txt"
 
-    string_list_A => ReadString(input_file)
+    rec_list => ReadRecordList(F1)
 
-    if (associated(string_list_A)) then
-        ! open(OUTPUT_UNIT,encoding=E_)
-        ! call mywritelist(OUTPUT_UNIT,string_list_A)
+    if (associated(rec_list)) then
+        open(OUTPUT_UNIT,encoding=E_)
+        call mywritelist(OUTPUT_UNIT,rec_list)
         ! print *,""
-        string_list_B => SubstringAt(string_list_A,1)
-        if (associated(string_list_B)) then
-            ! call mywritelist(OUTPUT_UNIT,string_list_B)
-            call WriteString(output_file,string_list_B)
-        else
-            print *,"Неверно задано начало подстроки"
-        end if
+        ! Rec_List_B => SubstringAt(Rec_List_A,1)
+        ! if (associated(Rec_List_B)) then
+            ! call mywritelist(OUTPUT_UNIT,Rec_List_B)
+            ! call WriteString(output_file,Rec_List_B)
+        ! else
+            ! print *,"Неверно задано начало подстроки"
+        ! end if
     end if
 contains
-    recursive subroutine mywritelist(out,string_list)
-        integer :: out
-        type(String) :: string_list
+    recursive subroutine mywritelist(Out,Rec_List)
+        integer :: Out
+        type(Record) :: Rec_List
 
-        write (out,format,advance='no') string_list%ch
+        write (out,*) Rec_List%Surname, Rec_List%Name
 
-        if (associated(string_list%next)) then
-            call mywritelist(out,string_list%next)
+        if (associated(Rec_List%next)) then
+            call mywritelist(out,Rec_List%next)
         end if
     end subroutine mywritelist
 end program lab_1_5
