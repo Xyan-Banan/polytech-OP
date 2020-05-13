@@ -1,4 +1,4 @@
-module String_Process
+module Set_Process
     use Environment
     use IO
     implicit none
@@ -31,7 +31,7 @@ contains
         else
             !текущего элемента А нет в множестве В, его пропускаем
             if (associated(Rec_List_A%next)) then       !если есть следующий элемент в списке, проверяем его
-                call Complement(Rec_List_A,Rec_List_B)
+                call Complement(Rec_List_A%next,Rec_List_B)
             end if
         end if
     end subroutine Complement
@@ -60,37 +60,4 @@ contains
             IsEqual = .false.
         end if
     end function IsEqual
-
-
-    ! function SubstringAt(String_List,N) result(Str)
-    !     type(String) :: String_List
-    !     integer      :: N
-    !     type(String),pointer :: Str
-
-    !     integer :: Counter = 1
-        
-    !     Str => GetCharAt(String_List,N,Counter)
-    ! end function SubstringAt
-
-    ! recursive function GetCharAt(String_List,N,Counter) result(Str)
-    !     type(String),target :: String_List
-    !     integer      :: N
-    !     integer :: Counter
-
-    !     type(String),pointer :: Str
-
-    !     if (Counter > N) then
-    !         Str => Null()
-    !     else
-    !         if (N == Counter) then
-    !             Str => String_List
-    !         else
-    !             if (associated(String_List%next)) then
-    !                 Str => GetCharAt(String_List%next,N,Counter + 1)
-    !             else
-    !                 str => Null()
-    !             end if
-    !         end if
-    !     end if
-    ! end function
-end module String_Process
+end module Set_Process
