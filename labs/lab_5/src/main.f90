@@ -5,7 +5,7 @@ program lab_1_5
     implicit none
     
     class(node),pointer :: expression_inf
-    character(:), allocatable  :: input_file, output_file
+    character(:), allocatable  :: input_file, output_file, res
     logical :: check
 
     input_file = "../data/data.txt"
@@ -16,20 +16,11 @@ program lab_1_5
     if (associated(expression_inf)) then
         call CheckInfForm(expression_inf, check)
         if(check) then
-
+            call GetPrefFromInf(expression_inf,res)
+            call writeresult(output_file,res)
         else
             print *,"Выражение в инфиксной форме записано с ошибкой"
         end if
-        ! open(OUTPUT_UNIT,encoding=E_)
-        ! call mywritelist(OUTPUT_UNIT,string_list_A)
-        ! print *,""
-        ! string_list_B => SubstringAt(string_list_A,5)
-        ! if (associated(string_list_B)) then
-        !     ! call mywritelist(OUTPUT_UNIT,string_list_B)
-        !     call WriteString(output_file,string_list_B)
-        ! else
-        !     print *,"Неверно задано начало подстроки"
-        ! end if
     end if
 contains
     recursive subroutine mywritelist(out,string_list)

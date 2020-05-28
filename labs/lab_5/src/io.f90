@@ -7,11 +7,22 @@ module IO
         type(String), pointer :: next => Null()
     end type String
 
+    ! type String_Tree
+    !     character(kind=CH_) :: ch
+    !     type(String), pointer :: next => Null()
+    !     type(String), pointer :: left => Null(),right => Null()
+    ! end type String_Tree
+
     type Tree
         character :: ch
         type(Tree),pointer :: left => Null()
         type(Tree),pointer :: right => Null()
     end type Tree
+
+    type Stack_Tree
+        class(tree_node),pointer :: elem => Null()
+        type(Stack_Tree),pointer :: next => Null()
+    end type Stack_Tree
 
     type node
         class(node), pointer :: next  => Null()
@@ -45,14 +56,11 @@ contains
         character(*), intent(in)   :: Input_File
         integer  In
 
-        ! При чтении только английских букв и цифр лучше открывать как ASCII.
-        !open (file=Input_File, encoding=E_, newunit=In)
         open (file=Input_File, newunit=In)
         List => Read_value(In)
         close (In)
     end function Read_list
 
-    ! Чтение следующего значения.
     recursive function Read_value(In) result(Elem)
         class(node), pointer  :: Elem
         integer, intent(in)     :: In
@@ -76,24 +84,13 @@ contains
         end if
     end function Read_value
 
-    subroutine WriteString(Output_File,String_List)
-        character(*),intent(in) :: Output_File
-        type(String),intent(in) :: String_List
-        
+    subroutine WriteResult(Output_File,Result)
+        character(*),intent(in) :: Output_File, Result
+
         integer :: Out
 
         open(file=Output_File,newunit=Out,encoding=E_,status="replace")
-            call WriteChar(Out,String_List)
+            write(Out,*) Result
         close(Out)
-    end subroutine WriteString
-
-    recursive subroutine WriteChar(Out,Str)
-        integer :: Out
-        type(String) :: Str
-
-        write (out,format,advance='no') Str%ch
-        if (associated(Str%next)) then
-            call WriteChar(out,Str%next)
-        end if
-    end subroutine WriteChar
+    end subroutine WriteResult
 end module IO
