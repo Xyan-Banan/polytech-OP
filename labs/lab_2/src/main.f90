@@ -18,7 +18,7 @@ program lab_1_5
         ! open(OUTPUT_UNIT,encoding=E_)
         ! call mywritelist(OUTPUT_UNIT,string_list_A)
         ! print *,""
-        string_list_B => SubstringAt(string_list_A,5)
+        string_list_B => SubstringAt(string_list_A,1)
         if (associated(string_list_B)) then
             ! call mywritelist(OUTPUT_UNIT,string_list_B)
             call WriteString(output_file,string_list_B)
