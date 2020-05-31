@@ -1,4 +1,4 @@
-program lab_1_5
+program lab_4
     use Environment
     use IO
     use Process
@@ -14,12 +14,11 @@ program lab_1_5
     output_file = "output.txt"
 
     call ReadPolynome(input_file,poly_list_P, poly_list_Q)
-    ! open(OUTPUT_UNIT,encoding=E_)
-    ! call mywritelist(OUTPUT_UNIT,poly_list_P)
-    ! print *,"--------"
-    ! call mywritelist(OUTPUT_UNIT,poly_list_Q)
-    if (associated(poly_list_P) .and. associated(poly_list_Q)) then
-        poly_list_R => PolySum(poly_list_P,poly_list_Q)
+    if (associated(poly_list_P) .or. associated(poly_list_Q)) then
+        call PolySum(poly_list_P,poly_list_Q, poly_list_R)
+        if (associated(poly_list_R)) then
+            call WritePolynome(output_file,poly_list_R)
+        end if
     end if
 contains
     recursive subroutine mywritelist(Out,poly_list)
@@ -32,4 +31,4 @@ contains
             call mywritelist(Out,poly_list%next)
         end if
     end subroutine mywritelist
-end program lab_1_5
+end program lab_4
