@@ -65,7 +65,6 @@ contains
 
         call GetPostFromInf(Expression_Inf,Expression_Post)
         call GetTreeFromPost(Expression_Post,Expression_Tree)
-        ! print *,"here all ok"
         Expression_Pref = GetPrefFromTree(Expression_Tree%elem)
     end subroutine
 
@@ -88,32 +87,22 @@ contains
         do while (associated(Expr_Pointer))
             select type (Expr_Pointer)
                 type is (variable)
-                    ! print *,Expr_Pointer%char
                     call PushQ(Expression_Post,Expr_Pointer%char)
-                    ! print *,Expr_Pointer%char," pushed to queue"
                 type is (operation)
-                    ! print *,Expr_Pointer%char    
-                    ! print *,"going to check stack"
                     if (associated(Stack)) then
-                        ! print *,"stack is NOT empty"
                         do while(associated(Stack) .and. IsOpGrE(Stack%ch,Expr_Pointer%char))
                             call PopS(Stack,val)
-                            ! print *,val," popped from stack"
                             call PushQ(Expression_Post,val)
-                            ! print *,val," pushed to queue"
                         end do
                     else
-                        ! print *,"stack is empty"
                     end if
                     call PushS(Stack,Expr_Pointer%char)
-                    ! print *, Expr_Pointer%char," pushed to stack"
             end select
             Expr_Pointer => Expr_Pointer%next
         end do
         do while(associated(Stack))
             call PopS(Stack,val)
             call PushQ(Expression_Post,val)
-            ! print *,val," pushed to queue"
         end do
         
     end subroutine GetPostFromInf
@@ -131,12 +120,10 @@ contains
         
         select type(Expression_Post)
             type is (variable)
-                ! print *, Expression_Post%char
                 allocate(Tree_Elem,source=tree_variable(char=Expression_Post%char))
                 allocate(New_Stack_Elem,source=Stack_Tree(elem=Tree_Elem,next=Stack)) !push var to stack
                 Stack => New_Stack_Elem
             type is (operation)
-                ! print *, Expression_Post%char
                 allocate(Tree_Elem,source=tree_variable(char=Expression_Post%char))
                 
                 Tree_Elem%right => Stack%elem       !put top stack elem to right branch
@@ -172,14 +159,8 @@ contains
             end select
             
             left_part = GetPrefFromTree(Expression%left) 
-            ! print *,"for node ",val," left part is ",left_part 
             right_part = GetPrefFromTree(Expression%right)
-            ! print *,"for node ",val," right part is ",right_part
             res_expr = left_part // right_part // val
-            ! print *,"total expression is ",res_expr
-
-            ! res_expr = GetPrefFromTree(Expression%left) // GetPrefFromTree(Expression%right) // val !не работает (((
-            ! print *,"total expression is ",res_expr
         else 
             select type(Expression)
                 type is(tree_variable)
@@ -196,13 +177,11 @@ contains
         select case(Op_A)
             case(CH__'+',CH__'-')
                 if(Op_B == CH__'+' .or. Op_B == CH__'-') then
-                    ! print *,Op_A," is greater or equal ",Op_B
                     IsOpGrE = .true.
                 else
                     IsOpGrE = .false.
                 end if
             case(CH__'*',CH__'/')
-                ! print *,Op_A," is greater or equal ",Op_B
                 IsOpGrE = .true.
         end select
     end function IsOpGrE
@@ -261,15 +240,4 @@ contains
             nullify(list)
         end if
     end subroutine PopQ
-
-! если (
-!     создать новую вершину
-!     вызвать рекурсивно для левой ветви
-!     прочитать символ
-!     присвоить его текущей вершины
-!     вызвать для правой ветви
-!     прочитать скобку
-!     если не )
-!         создать новый узел
-!         занести прочитанный символвы
 end module Process
